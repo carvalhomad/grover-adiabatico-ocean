@@ -1,0 +1,228 @@
+% ============================================================
+% passo1.tex
+% Teorema Adiabático — versão consistente em notação de Dirac
+% ============================================================
+
+\chapter{O Teorema Adiabático}
+
+\section{Introdução}
+
+O teorema adiabático constitui um dos resultados fundamentais da mecânica quântica, estabelecendo as condições sob as quais o vetor de estado de um sistema quântico fechado permanece associado a um autoestado instantâneo do Hamiltoniano quando este varia lentamente no tempo. Esse resultado é central na formulação da computação quântica adiabática, pois garante que a evolução controlada de um Hamiltoniano permite preparar o autoestado fundamental associado ao Hamiltoniano final \cite{Born1928, Kato1950, Messiah1962}.
+
+Fisicamente, o teorema descreve a evolução de um vetor de estado $\ket{\psi(t)}$ no espaço de Hilbert quando o operador Hamiltoniano $\hat{H}(t)$ depende continuamente do tempo. Quando essa dependência é suficientemente lenta e certas hipóteses espectrais são satisfeitas, o vetor de estado permanece associado ao autoestado instantâneo correspondente.
+
+\section{Formulação matemática}
+
+Considere um sistema quântico fechado descrito por um operador Hamiltoniano dependente do tempo,
+
+\begin{equation}
+\hat{H}(t), \qquad t \in [0,T].
+\end{equation}
+
+A evolução temporal do vetor de estado $\ket{\psi(t)}$ é governada pela equação de Schrödinger dependente do tempo,
+
+\begin{equation}
+i \hbar \frac{d}{dt} \ket{\psi(t)} = \hat{H}(t) \ket{\psi(t)}.
+\end{equation}
+
+Para cada instante de tempo, o operador Hamiltoniano admite uma decomposição espectral em termos de seus autoestados instantâneos,
+
+\begin{equation}
+\hat{H}(t) \ket{n(t)} = E_n(t) \ket{n(t)},
+\end{equation}
+
+onde:
+
+\begin{itemize}
+
+\item $\ket{n(t)}$ representa o autoestado instantâneo associado ao autovalor $E_n(t)$;
+
+\item o conjunto $\{\ket{n(t)}\}$ forma uma base ortonormal completa do espaço de Hilbert;
+
+\item os autovalores são ordenados de forma crescente,
+
+\begin{equation}
+E_0(t) < E_1(t) < E_2(t) < \cdots.
+
+\end{equation}
+
+\end{itemize}
+
+O autoestado $\ket{0(t)}$ corresponde ao autoestado fundamental instantâneo.
+
+A decomposição espectral do Hamiltoniano pode ser escrita como
+
+\begin{equation}
+\hat{H}(t) =
+\sum_n E_n(t) \ket{n(t)} \bra{n(t)}.
+\end{equation}
+
+\section{Hipóteses formais do teorema adiabático}
+
+O teorema adiabático depende das seguintes hipóteses formais \cite{Kato1950, Jansen2007}:
+
+\begin{enumerate}
+
+\item O sistema é fechado e sua evolução é descrita por um operador unitário $\hat{U}(t)$ tal que
+
+\begin{equation}
+\ket{\psi(t)} = \hat{U}(t)\ket{\psi(0)}.
+\end{equation}
+
+\item O operador Hamiltoniano $\hat{H}(t)$ é suficientemente regular no tempo, sendo pelo menos continuamente diferenciável.
+
+\item Existe uma lacuna espectral finita entre o autoestado fundamental e o primeiro autoestado excitado, definida por
+
+\begin{equation}
+\Delta(t) =
+E_1(t) - E_0(t) > 0.
+\end{equation}
+
+\item A evolução ocorre em uma escala de tempo suficientemente longa.
+
+\end{enumerate}
+
+Define-se a lacuna espectral mínima como
+
+\begin{equation}
+\Delta_{\min} =
+\min_{t \in [0,T]}
+\left(
+E_1(t) - E_0(t)
+\right).
+\end{equation}
+
+\section{Enunciado do teorema adiabático}
+
+Considere que o sistema seja inicialmente preparado no autoestado fundamental do Hamiltoniano inicial,
+
+\begin{equation}
+\ket{\psi(0)} = \ket{0(0)}.
+\end{equation}
+
+Sob as hipóteses estabelecidas, o teorema adiabático afirma que, para evolução suficientemente lenta, o vetor de estado em um instante posterior $t$ satisfaz
+
+\begin{equation}
+\ket{\psi(t)} =
+e^{i \theta(t)}
+\ket{0(t)}
++
+\ket{\epsilon(t)},
+\end{equation}
+
+onde:
+
+\begin{equation}
+\lim_{T \to \infty} \ket{\epsilon(t)} = \ket{0},
+\end{equation}
+
+ou seja, o vetor de estado permanece arbitrariamente próximo do autoestado fundamental instantâneo.
+
+A fase total $\theta(t)$ pode ser decomposta como
+
+\begin{equation}
+\theta(t) =
+\theta_{\mathrm{dyn}}(t)
++
+\theta_{\mathrm{geom}}(t),
+\end{equation}
+
+onde
+
+\begin{equation}
+\theta_{\mathrm{dyn}}(t)
+=
+-
+\frac{1}{\hbar}
+\int_0^t
+E_0(t') dt'
+\end{equation}
+
+é a fase dinâmica, e
+
+\begin{equation}
+\theta_{\mathrm{geom}}(t)
+=
+i \int_0^t
+\bra{0(t')}
+\frac{d}{dt'}
+\ket{0(t')}
+dt'
+\end{equation}
+
+é a fase geométrica \cite{Berry1984}.
+
+\section{Condição adiabática}
+
+Uma condição quantitativa suficiente para a validade da evolução adiabática pode ser expressa como
+
+\begin{equation}
+\max_{t}
+\frac{
+\left|
+\bra{1(t)}
+\frac{d\hat{H}(t)}{dt}
+\ket{0(t)}
+\right|
+}{
+\Delta(t)^2
+}
+\ll 1.
+\end{equation}
+
+Essa condição estabelece que a taxa de variação do Hamiltoniano deve ser pequena em comparação com o quadrado da lacuna espectral.
+
+\section{Interpretação em termos de projetores}
+
+Define-se o projetor sobre o autoestado fundamental como
+
+\begin{equation}
+\hat{P}_0(t) =
+\ket{0(t)} \bra{0(t)}.
+\end{equation}
+
+O teorema adiabático afirma que, para evolução suficientemente lenta,
+
+\begin{equation}
+\ket{\psi(t)}
+\approx
+e^{i\theta(t)}
+\hat{P}_0(t)
+\ket{\psi(t)}.
+\end{equation}
+
+Isso significa que o vetor de estado permanece no subespaço fundamental instantâneo.
+
+\section{Interpretação física}
+
+Fisicamente, o vetor de estado acompanha continuamente o autoestado fundamental instantâneo do Hamiltoniano. A presença de uma lacuna espectral finita impede transições para autoestados excitados durante a evolução lenta.
+
+Esse princípio constitui o fundamento da computação quântica adiabática, na qual a solução de um problema é codificada no autoestado fundamental de um Hamiltoniano final \cite{Farhi2000, Albash2018}.
+
+\section{Implicações para computação quântica}
+
+Na computação quântica adiabática, define-se um Hamiltoniano dependente de um parâmetro adimensional $s$,
+
+\begin{equation}
+\hat{H}(s),
+\end{equation}
+
+com:
+
+\begin{equation}
+\hat{H}(0) = \hat{H}_0,
+\qquad
+\hat{H}(1) = \hat{H}_f,
+\end{equation}
+
+onde $\ket{0(0)}$ é facilmente preparável e $\ket{0(1)}$ codifica a solução do problema.
+
+O teorema adiabático garante que a evolução suficientemente lenta transforma
+
+\begin{equation}
+\ket{0(0)}
+\longrightarrow
+\ket{0(1)}.
+\end{equation}
+
+Esse resultado estabelece a base teórica da computação quântica adiabática.

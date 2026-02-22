@@ -1,0 +1,210 @@
+% ============================================================
+% passo4.tex
+% Construção do algoritmo de Grover adiabático e derivação
+% do algoritmo de Roland-Cerf
+% ============================================================
+
+\chapter{Construção do Algoritmo de Grover em sua Formulação Adiabática}
+
+\section{Introdução}
+
+A reformulação do algoritmo de busca de Grover no contexto da computação quântica adiabática constitui um dos resultados mais importantes na conexão entre diferentes modelos de computação quântica. Essa reformulação foi inicialmente proposta no contexto da evolução quântica contínua por Farhi e Gutmann \cite{Farhi1998} e posteriormente desenvolvida no framework da computação quântica adiabática por Farhi et al. \cite{Farhi2000}. A derivação completa do algoritmo adiabático ótimo foi realizada por Roland e Cerf \cite{Roland2002}, que demonstraram que a busca adiabática pode atingir a mesma complexidade assintótica do algoritmo de Grover original.
+
+Neste capítulo, será apresentada a construção formal dos Hamiltonianos envolvidos, a análise da evolução adiabática e a demonstração da equivalência com o algoritmo de Grover.
+
+\section{Formulação do problema}
+
+Considere um espaço de Hilbert de dimensão $N$, com base ortonormal dada por:
+
+\begin{equation}
+\{ \ket{x} \}, \quad x = 0, 1, \dots, N-1.
+\end{equation}
+
+O objetivo é encontrar um estado marcado $\ket{m}$, que representa a solução do problema de busca.
+
+O estado inicial é definido como a superposição uniforme:
+
+\begin{equation}
+\ket{\psi_0} =
+\frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \ket{x}.
+\end{equation}
+
+Esse estado corresponde ao estado fundamental do Hamiltoniano inicial.
+
+\section{Construção do Hamiltoniano inicial}
+
+O Hamiltoniano inicial é definido como:
+
+\begin{equation}
+H_0 = I - \ket{\psi_0}\bra{\psi_0}.
+\end{equation}
+
+Esse Hamiltoniano possui as seguintes propriedades:
+
+\begin{equation}
+H_0 \ket{\psi_0} = 0,
+\end{equation}
+
+e, para qualquer estado ortogonal a $\ket{\psi_0}$,
+
+\begin{equation}
+H_0 \ket{\phi} = \ket{\phi}.
+\end{equation}
+
+Assim, $\ket{\psi_0}$ é o estado fundamental único de $H_0$.
+
+\section{Construção do Hamiltoniano final}
+
+O Hamiltoniano final é definido como:
+
+\begin{equation}
+H_f = I - \ket{m}\bra{m}.
+\end{equation}
+
+Esse Hamiltoniano possui como estado fundamental o estado marcado:
+
+\begin{equation}
+H_f \ket{m} = 0.
+\end{equation}
+
+Todos os demais estados possuem energia igual a 1.
+
+Esse Hamiltoniano codifica o problema de busca, pois sua energia mínima corresponde à solução.
+
+\section{Hamiltoniano interpolado}
+
+O Hamiltoniano dependente do tempo é definido por interpolação linear:
+
+\begin{equation}
+H(s) = (1 - s) H_0 + s H_f,
+\end{equation}
+
+onde
+
+\begin{equation}
+s = \frac{t}{T}.
+\end{equation}
+
+O sistema é inicialmente preparado no estado fundamental de $H_0$ e evolui de acordo com o teorema adiabático.
+
+\section{Redução ao subespaço bidimensional}
+
+A dinâmica do sistema pode ser completamente descrita no subespaço gerado pelos vetores:
+
+\begin{equation}
+\ket{m}
+\end{equation}
+
+e
+
+\begin{equation}
+\ket{\psi_0}.
+\end{equation}
+
+Define-se o estado ortogonal:
+
+\begin{equation}
+\ket{m^\perp} =
+\frac{1}{\sqrt{N-1}}
+\sum_{x \neq m} \ket{x}.
+\end{equation}
+
+O estado inicial pode ser escrito como:
+
+\begin{equation}
+\ket{\psi_0}
+=
+\frac{1}{\sqrt{N}} \ket{m}
++
+\sqrt{\frac{N-1}{N}} \ket{m^\perp}.
+\end{equation}
+
+Isso mostra que a evolução ocorre em um subespaço bidimensional.
+
+\section{Autovalores do Hamiltoniano}
+
+No subespaço bidimensional, o Hamiltoniano pode ser representado por uma matriz $2 \times 2$.
+
+A análise espectral mostra que a lacuna espectral é dada por \cite{Roland2002}:
+
+\begin{equation}
+\Delta(s)
+=
+\sqrt{
+1
+-
+4 \frac{N-1}{N} s (1 - s)
+}.
+\end{equation}
+
+A lacuna mínima ocorre em:
+
+\begin{equation}
+s = \frac{1}{2}.
+\end{equation}
+
+e é dada por:
+
+\begin{equation}
+\Delta_{\min} =
+\frac{1}{\sqrt{N}}.
+\end{equation}
+
+\section{Tempo de evolução adiabática}
+
+De acordo com o teorema adiabático, o tempo de evolução necessário satisfaz:
+
+\begin{equation}
+T \propto \frac{1}{\Delta_{\min}^2}.
+\end{equation}
+
+Substituindo o valor da lacuna mínima:
+
+\begin{equation}
+T \propto N.
+\end{equation}
+
+Esse resultado corresponde ao caso de interpolação linear.
+
+\section{Schedule ótimo de Roland-Cerf}
+
+Roland e Cerf demonstraram que é possível melhorar o tempo de execução utilizando um schedule não linear que satisfaz a condição de adiabaticidade local:
+
+\begin{equation}
+\frac{ds}{dt}
+\propto
+\Delta(s)^2.
+\end{equation}
+
+Integrando essa equação, obtém-se o tempo total de evolução:
+
+\begin{equation}
+T \propto \sqrt{N}.
+\end{equation}
+
+Esse resultado corresponde exatamente à complexidade do algoritmo de Grover.
+
+\section{Equivalência com o algoritmo de Grover}
+
+O algoritmo de Grover possui complexidade:
+
+\begin{equation}
+O(\sqrt{N})
+\end{equation}
+
+\cite{Grover1996}.
+
+Além disso, foi demonstrado que nenhum algoritmo quântico pode resolver o problema de busca não estruturada em tempo inferior a $\Omega(\sqrt{N})$ \cite{Bennett1997}.
+
+Como o algoritmo de Roland–Cerf também possui complexidade $O(\sqrt{N})$, conclui-se que ele é assintoticamente ótimo.
+
+Essa equivalência é consistente com o resultado geral que estabelece a equivalência entre computação quântica adiabática e computação quântica baseada em circuitos \cite{Aharonov2004}.
+
+\section{Interpretação física}
+
+Fisicamente, o algoritmo adiabático implementa uma rotação contínua do vetor de estado no espaço de Hilbert, transformando o estado inicial no estado marcado.
+
+Esse processo é equivalente à amplificação de amplitude realizada pelo algoritmo de Grover no modelo de circuitos.
+
+Ambos os algoritmos exploram a mesma estrutura geométrica do espaço de Hilbert.
+

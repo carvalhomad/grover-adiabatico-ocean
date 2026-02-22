@@ -1,0 +1,181 @@
+% ============================================================
+% passo2.tex
+% Modelo de Computação Quântica Adiabática
+% ============================================================
+
+\chapter{O Modelo de Computação Quântica Adiabática}
+
+\section{Introdução}
+
+A computação quântica adiabática constitui um modelo de computação quântica baseado na evolução contínua e controlada de um sistema físico descrito por um Hamiltoniano dependente do tempo. Esse modelo fundamenta-se diretamente no teorema adiabático da mecânica quântica, discutido no capítulo anterior, que garante a preservação do estado fundamental de um sistema quando seu Hamiltoniano varia suficientemente lentamente \cite{Farhi2000, Albash2018}.
+
+Diferentemente do modelo tradicional de computação quântica baseado em circuitos, no qual a computação é realizada por meio da aplicação discreta de portas quânticas, o modelo adiabático utiliza uma evolução contínua do Hamiltoniano para transformar um estado inicial conhecido em um estado final que codifica a solução de um problema computacional \cite{Aharonov2004}.
+
+\section{Formulação matemática do modelo adiabático}
+
+Considere um sistema quântico fechado cujo Hamiltoniano depende de um parâmetro adimensional $s$, definido no intervalo:
+
+\begin{equation}
+s \in [0,1].
+\end{equation}
+
+O Hamiltoniano do sistema é definido como uma interpolação entre um Hamiltoniano inicial $H_0$ e um Hamiltoniano final $H_f$:
+
+\begin{equation}
+H(s) = (1 - s) H_0 + s H_f.
+\end{equation}
+
+O Hamiltoniano inicial $H_0$ é escolhido de modo que seu estado fundamental seja facilmente preparável, enquanto o Hamiltoniano final $H_f$ é construído de forma que seu estado fundamental codifique a solução do problema computacional de interesse \cite{Farhi2000}.
+
+A dependência temporal é introduzida definindo-se:
+
+\begin{equation}
+s = \frac{t}{T},
+\end{equation}
+
+onde $T$ representa o tempo total de evolução.
+
+O Hamiltoniano dependente do tempo torna-se, portanto:
+
+\begin{equation}
+H(t) = H\left( \frac{t}{T} \right).
+\end{equation}
+
+A evolução do estado do sistema é governada pela equação de Schrödinger:
+
+\begin{equation}
+i \hbar \frac{d}{dt} \ket{\psi(t)} = H(t) \ket{\psi(t)}.
+\end{equation}
+
+Se o sistema for inicialmente preparado no estado fundamental de $H_0$,
+
+\begin{equation}
+\ket{\psi(0)} = \ket{0(0)},
+\end{equation}
+
+o teorema adiabático garante que, para evolução suficientemente lenta, o sistema permanecerá no estado fundamental instantâneo e, ao final da evolução, atingirá o estado fundamental do Hamiltoniano final:
+
+\begin{equation}
+\ket{\psi(T)} \approx \ket{0(1)}.
+\end{equation}
+
+Esse estado contém a solução do problema computacional.
+
+\section{Codificação de problemas computacionais}
+
+O princípio fundamental da computação quântica adiabática consiste em codificar o problema computacional no Hamiltoniano final.
+
+Considere um problema de otimização cuja função custo é definida por:
+
+\begin{equation}
+C(x),
+\end{equation}
+
+onde $x$ representa uma configuração do sistema.
+
+O Hamiltoniano final é construído de forma que:
+
+\begin{equation}
+H_f \ket{x} = C(x) \ket{x}.
+\end{equation}
+
+O estado fundamental corresponde à configuração que minimiza a função custo.
+
+Dessa forma, a computação adiabática transforma o problema computacional em um problema físico de minimização de energia.
+
+\section{Tempo de execução e lacuna espectral}
+
+O tempo necessário para que a evolução seja adiabática depende da lacuna espectral mínima do Hamiltoniano interpolado:
+
+\begin{equation}
+\Delta_{\min} = \min_{s \in [0,1]} \left( E_1(s) - E_0(s) \right).
+\end{equation}
+
+O tempo total de evolução deve satisfazer aproximadamente a condição \cite{Jansen2007, Albash2018}:
+
+\begin{equation}
+T \gg \frac{1}{\Delta_{\min}^2}.
+\end{equation}
+
+Essa relação estabelece um vínculo direto entre a complexidade computacional e a estrutura espectral do Hamiltoniano.
+
+Se a lacuna espectral diminuir exponencialmente com o tamanho do sistema, o tempo de execução também crescerá exponencialmente, limitando a eficiência do algoritmo.
+
+\section{Equivalência com o modelo de circuitos}
+
+Um resultado fundamental na teoria da computação quântica é a demonstração da equivalência entre o modelo de computação quântica adiabática e o modelo baseado em circuitos quânticos \cite{Aharonov2004}.
+
+Esse resultado estabelece que qualquer algoritmo implementável no modelo de circuitos pode ser implementado no modelo adiabático com overhead polinomial, e vice-versa.
+
+Essa equivalência garante que a computação quântica adiabática possui o mesmo poder computacional que o modelo padrão de computação quântica.
+
+\section{Implementação física em sistemas reais}
+
+A computação quântica adiabática pode ser implementada fisicamente utilizando sistemas quânticos cujo Hamiltoniano pode ser controlado experimentalmente.
+
+Um exemplo importante é o modelo baseado em sistemas Ising, cujo Hamiltoniano é dado por:
+
+\begin{equation}
+H = \sum_i h_i \sigma_i^z + \sum_{i<j} J_{ij} \sigma_i^z \sigma_j^z,
+\end{equation}
+
+onde $\sigma_i^z$ representa operadores de Pauli e $h_i$ e $J_{ij}$ representam campos locais e acoplamentos entre qubits.
+
+O Hamiltoniano completo implementado em sistemas reais inclui também um termo de campo transverso:
+
+\begin{equation}
+H(s) = A(s) \sum_i \sigma_i^x + B(s) H_f,
+\end{equation}
+
+onde o termo proporcional a $\sigma_i^x$ atua como Hamiltoniano inicial, e o termo proporcional a $H_f$ representa o Hamiltoniano problema.
+
+\section{Limitações físicas e tecnológicas}
+
+Embora o modelo adiabático seja teoricamente poderoso, sua implementação física apresenta desafios significativos.
+
+Entre os principais fatores limitantes estão:
+
+\begin{itemize}
+
+\item Decoerência, resultante da interação com o ambiente;
+
+\item Ruído térmico;
+
+\item Imperfeições no controle experimental do Hamiltoniano;
+
+\item Pequenas lacunas espectrais, que exigem tempos de evolução muito longos;
+
+\item Escalabilidade limitada dos sistemas físicos disponíveis.
+
+\end{itemize}
+
+Esses fatores podem induzir transições não adiabáticas e reduzir a probabilidade de obtenção do estado fundamental correto.
+
+\section{Aplicações}
+
+A computação quântica adiabática possui aplicações em diversas áreas, incluindo:
+
+\begin{itemize}
+
+\item Problemas de otimização combinatória;
+
+\item Problemas de busca;
+
+\item Aprendizado de máquina;
+
+\item Física de sistemas fortemente correlacionados;
+
+\item Modelagem de materiais e sistemas moleculares.
+
+\end{itemize}
+
+Essas aplicações exploram a capacidade do sistema quântico de explorar eficientemente o espaço de estados.
+
+\section{Relevância tecnológica}
+
+Sistemas físicos baseados em computação quântica adiabática já foram construídos experimentalmente, incluindo dispositivos baseados em qubits supercondutores.
+
+Esses sistemas permitem implementar Hamiltonianos Ising programáveis e executar algoritmos de otimização por meio de evolução adiabática controlada \cite{Albash2018}.
+
+Embora ainda existam limitações tecnológicas, esses dispositivos representam uma das implementações mais avançadas de computação quântica disponíveis atualmente.
+

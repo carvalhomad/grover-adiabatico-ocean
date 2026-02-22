@@ -1,0 +1,164 @@
+% ============================================================
+% passo3.tex
+% Reformulação do Algoritmo de Grover no Framework Adiabático
+% ============================================================
+
+\chapter{Reformulação do Algoritmo de Grover no Framework Adiabático}
+
+\section{Introdução}
+
+O algoritmo de Grover constitui um dos algoritmos mais importantes da computação quântica, fornecendo uma aceleração quadrática na busca de um elemento marcado em um espaço de busca não estruturado \cite{Grover1996}. No modelo tradicional de circuitos quânticos, o algoritmo utiliza uma sequência de operadores unitários que amplificam a amplitude do estado solução por meio de um processo iterativo conhecido como amplificação de amplitude.
+
+Posteriormente, foi demonstrado que o mesmo problema de busca pode ser reformulado no contexto da computação quântica adiabática, utilizando uma evolução contínua do Hamiltoniano do sistema \cite{Farhi1998, Farhi2000}. Essa reformulação estabelece uma conexão profunda entre o modelo de circuitos e o modelo adiabático, permitindo implementar o algoritmo de busca como um processo físico contínuo.
+
+Neste capítulo, será apresentada a reformulação do problema de busca não estruturada no framework adiabático, identificando os Hamiltonianos associados ao estado inicial e ao estado alvo.
+
+\section{Problema de busca não estruturada}
+
+Considere um espaço de busca contendo $N$ elementos ortonormais, representados por estados da base computacional:
+
+\begin{equation}
+\{ \ket{x} \}, \quad x = 0, 1, \dots, N-1.
+\end{equation}
+
+O objetivo consiste em encontrar um estado específico, denominado estado marcado, denotado por:
+
+\begin{equation}
+\ket{m}.
+\end{equation}
+
+No modelo de circuitos, o algoritmo de Grover utiliza um oráculo que reconhece esse estado. No modelo adiabático, o problema é reformulado como um problema de preparação de estado fundamental.
+
+\section{Estado inicial}
+
+O algoritmo adiabático começa com um estado inicial facilmente preparável, definido como a superposição uniforme de todos os estados da base computacional:
+
+\begin{equation}
+\ket{\psi_0} =
+\frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \ket{x}.
+\end{equation}
+
+Esse estado pode ser preparado aplicando-se a transformada de Hadamard a todos os qubits do sistema.
+
+Esse estado corresponde ao estado fundamental de um Hamiltoniano inicial, que será definido na seção seguinte.
+
+\section{Hamiltoniano inicial}
+
+O Hamiltoniano inicial é construído de forma que seu estado fundamental seja precisamente o estado inicial do algoritmo:
+
+\begin{equation}
+H_0 = I - \ket{\psi_0}\bra{\psi_0}.
+\end{equation}
+
+Esse Hamiltoniano possui as seguintes propriedades:
+
+\begin{itemize}
+
+\item O estado $\ket{\psi_0}$ é o estado fundamental, com energia igual a zero;
+
+\item Todos os estados ortogonais possuem energia igual a 1;
+
+\item O estado fundamental é não degenerado.
+
+\end{itemize}
+
+Esse Hamiltoniano é facilmente implementável e possui um estado fundamental conhecido.
+
+\section{Estado alvo}
+
+O estado alvo corresponde ao estado marcado:
+
+\begin{equation}
+\ket{m}.
+\end{equation}
+
+Esse é o estado que contém a solução do problema de busca.
+
+O objetivo da evolução adiabática é transformar o estado inicial $\ket{\psi_0}$ no estado alvo $\ket{m}$.
+
+\section{Hamiltoniano final}
+
+O Hamiltoniano final é construído de forma que o estado alvo seja seu estado fundamental:
+
+\begin{equation}
+H_f = I - \ket{m}\bra{m}.
+\end{equation}
+
+Esse Hamiltoniano possui propriedades análogas ao Hamiltoniano inicial:
+
+\begin{itemize}
+
+\item O estado $\ket{m}$ possui energia zero;
+
+\item Todos os demais estados possuem energia igual a 1;
+
+\item O estado fundamental é não degenerado.
+
+\end{itemize}
+
+Esse Hamiltoniano codifica o problema de busca, pois seu estado fundamental corresponde à solução desejada.
+
+\section{Interpolação adiabática}
+
+A evolução adiabática é definida por meio de uma interpolação entre os Hamiltonianos inicial e final:
+
+\begin{equation}
+H(s) = (1 - s) H_0 + s H_f,
+\end{equation}
+
+onde:
+
+\begin{equation}
+s = \frac{t}{T}, \quad t \in [0, T].
+\end{equation}
+
+No instante inicial:
+
+\begin{equation}
+H(0) = H_0,
+\end{equation}
+
+e no instante final:
+
+\begin{equation}
+H(1) = H_f.
+\end{equation}
+
+Se o sistema for inicialmente preparado no estado fundamental de $H_0$, o teorema adiabático garante que o sistema evoluirá para o estado fundamental de $H_f$, que corresponde à solução do problema.
+
+\section{Redução a um subespaço bidimensional}
+
+Um resultado fundamental é que a dinâmica do sistema pode ser completamente descrita em um subespaço bidimensional gerado pelos vetores:
+
+\begin{equation}
+\ket{m}
+\end{equation}
+
+e
+
+\begin{equation}
+\ket{m^\perp},
+\end{equation}
+
+onde $\ket{m^\perp}$ representa um vetor ortogonal a $\ket{m}$ no subespaço relevante.
+
+Isso ocorre porque os Hamiltonianos $H_0$ e $H_f$ preservam esse subespaço.
+
+Essa redução simplifica significativamente a análise da evolução do sistema.
+
+\section{Interpretação física}
+
+Fisicamente, a evolução adiabática corresponde a uma rotação contínua do vetor de estado no espaço de Hilbert, transformando o estado inicial no estado alvo.
+
+Esse processo constitui uma versão contínua da amplificação de amplitude utilizada no algoritmo de Grover no modelo de circuitos.
+
+A equivalência conceitual entre essas duas abordagens será analisada com maior detalhe no próximo capítulo.
+
+\section{Relação com o modelo de circuitos}
+
+O algoritmo de Grover no modelo de circuitos realiza uma sequência discreta de rotações no espaço de Hilbert, enquanto o modelo adiabático realiza uma evolução contínua.
+
+Ambos os métodos exploram a mesma estrutura geométrica subjacente do espaço de estados e possuem a mesma complexidade assintótica \cite{Farhi1998, Roland2002}.
+
+Essa equivalência constitui uma das conexões mais importantes entre os diferentes modelos de computação quântica.
+

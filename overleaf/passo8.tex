@@ -1,0 +1,150 @@
+% ============================================================
+% passo8.tex
+% Consolidação do relatório técnico e conclusões
+% ============================================================
+
+\chapter{Consolidação do Relatório Técnico e Conclusões}
+
+\section{Introdução}
+
+Neste relatório técnico foi realizada uma análise completa do algoritmo de busca quântica em sua formulação adiabática, incluindo sua fundamentação teórica, construção matemática, implementação computacional e análise crítica dos resultados obtidos. O estudo foi conduzido com base no teorema adiabático da mecânica quântica e na formulação da computação quântica adiabática como um modelo computacional equivalente ao modelo de circuitos quânticos.
+
+O objetivo principal consistiu em analisar a reformulação do algoritmo de Grover no framework adiabático e verificar sua implementação utilizando ferramentas computacionais baseadas no D-Wave Ocean SDK.
+
+\section{Fundamentação teórica}
+
+Inicialmente, foi analisado o teorema adiabático, que estabelece as condições sob as quais um sistema quântico permanece em seu estado fundamental durante uma evolução lenta do Hamiltoniano. Foi demonstrado que a validade da aproximação adiabática depende da existência de uma lacuna espectral finita e da variação suficientemente lenta do Hamiltoniano.
+
+Em seguida, foi apresentado o modelo de computação quântica adiabática, no qual a solução de um problema computacional é codificada no estado fundamental de um Hamiltoniano final. A evolução adiabática permite transformar um estado inicial conhecido nesse estado fundamental.
+
+Foi demonstrado que esse modelo é computacionalmente equivalente ao modelo de circuitos quânticos, estabelecendo que ambos possuem o mesmo poder computacional.
+
+\section{Formulação adiabática do algoritmo de Grover}
+
+Foi apresentada a reformulação do algoritmo de Grover no contexto da computação quântica adiabática, com a construção dos Hamiltonianos inicial e final:
+
+\begin{equation}
+H_0 = I - \ket{\psi_0}\bra{\psi_0}
+\end{equation}
+
+e
+
+\begin{equation}
+H_f = I - \ket{m}\bra{m}.
+\end{equation}
+
+Foi demonstrado que a evolução adiabática transforma o estado inicial no estado marcado, que corresponde à solução do problema de busca.
+
+A análise espectral mostrou que a lacuna espectral mínima é proporcional a:
+
+\begin{equation}
+\Delta_{\min} \propto \frac{1}{\sqrt{N}},
+\end{equation}
+
+o que determina o tempo mínimo de evolução adiabática.
+
+Foi apresentado o resultado fundamental obtido por Roland e Cerf, que demonstraram que, utilizando um schedule adequado, o tempo de execução do algoritmo é proporcional a:
+
+\begin{equation}
+T \propto \sqrt{N},
+\end{equation}
+
+correspondendo exatamente à complexidade do algoritmo de Grover no modelo de circuitos.
+
+\section{Implementação computacional}
+
+Foi realizada a simulação do Hamiltoniano final utilizando o D-Wave Ocean SDK em ambiente de simulação clássica.
+
+Foi considerado um sistema composto por oito qubits, correspondente a um espaço de busca com 256 estados.
+
+O estado alvo foi definido como o número inteiro 3, cuja representação binária foi utilizada para construir o Hamiltoniano problema.
+
+A simulação foi realizada utilizando o algoritmo de recozimento simulado clássico, que permitiu identificar corretamente o estado fundamental do Hamiltoniano.
+
+O resultado obtido confirmou que o estado de menor energia corresponde ao estado alvo definido, validando a construção do Hamiltoniano.
+
+\section{Análise crítica}
+
+Foi realizada uma análise crítica das limitações da simulação clássica em relação à computação quântica adiabática real.
+
+Foi demonstrado que o recozimento simulado clássico não reproduz a dinâmica quântica completa, incluindo:
+
+\begin{itemize}
+
+\item Evolução unitária;
+
+\item Coerência quântica;
+
+\item Tunelamento quântico;
+
+\item Dependência explícita da lacuna espectral;
+
+\item Dinâmica adiabática completa.
+
+\end{itemize}
+
+Apesar dessas limitações, a simulação permitiu validar a formulação do problema e a construção correta do Hamiltoniano.
+
+\section{Comparação entre modelos}
+
+Foi realizada uma comparação detalhada entre o algoritmo de Grover em sua formulação baseada em circuitos e sua implementação no modelo adiabático.
+
+Foi demonstrado que ambos os modelos são matematicamente equivalentes e possuem a mesma complexidade assintótica.
+
+A principal diferença entre os modelos reside em sua implementação física, sendo o modelo de circuitos baseado em operações discretas e o modelo adiabático baseado em evolução contínua do Hamiltoniano.
+
+\section{Resultados principais}
+
+Os principais resultados obtidos neste trabalho foram:
+
+\begin{itemize}
+
+\item Análise formal do teorema adiabático;
+
+\item Formulação completa do modelo de computação quântica adiabática;
+
+\item Construção matemática do algoritmo de Grover adiabático;
+
+\item Demonstração da equivalência entre o algoritmo de Grover e o algoritmo de Roland-Cerf;
+
+\item Implementação computacional do Hamiltoniano problema utilizando o Ocean SDK;
+
+\item Validação da correta identificação do estado fundamental;
+
+\item Análise crítica das limitações da simulação clássica.
+
+\end{itemize}
+
+\section{Implicações científicas}
+
+Os resultados obtidos demonstram que o algoritmo de Grover pode ser implementado utilizando o modelo de computação quântica adiabática, mantendo sua complexidade ótima.
+
+Esse resultado confirma a equivalência fundamental entre diferentes modelos de computação quântica e fornece uma base teórica sólida para a implementação de algoritmos quânticos em dispositivos físicos baseados em evolução adiabática.
+
+Além disso, a implementação computacional utilizando o Ocean SDK demonstra a viabilidade da modelagem desses sistemas utilizando ferramentas computacionais clássicas.
+
+\section{Trabalhos futuros}
+
+Possíveis extensões deste trabalho incluem:
+
+\begin{itemize}
+
+\item Implementação do algoritmo em hardware quântico real;
+
+\item Simulação explícita da evolução adiabática completa;
+
+\item Estudo da influência da lacuna espectral na eficiência do algoritmo;
+
+\item Implementação de algoritmos mais complexos no modelo adiabático;
+
+\item Análise de efeitos de decoerência e ruído.
+
+\end{itemize}
+
+\section{Conclusão}
+
+
+
+Este trabalho consolidou (i) as hipóteses essenciais do teorema adiabático e o papel central da lacuna espectral; (ii) o modelo de computação quântica adiabática como paradigma computacional; e (iii) a reformulação da busca de Grover no framework adiabático, destacando o resultado de Roland--Cerf: ao adotar um schedule local, a busca adiabática recupera a complexidade $O(\sqrt{N})$ e é assintoticamente ótima, em concordância com o limite inferior para busca não estruturada.
+
+A simulação via Ocean SDK, realizada em regime clássico, tem valor como validação da codificação do problema (mínimo de energia do Hamiltoniano final), mas não reproduz a dinâmica adiabática unitária completa. Como continuidade natural, recomenda-se (a) simular explicitamente a evolução $H(s)$ em um simulador de dinâmica (quando possível para poucos qubits) e (b) comparar, em hardware, estatísticas e robustez frente a ruído, conectividade e parâmetros de annealing.

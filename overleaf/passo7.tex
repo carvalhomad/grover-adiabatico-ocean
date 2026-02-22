@@ -1,0 +1,233 @@
+% ============================================================
+% passo7.tex
+% Comparação entre o algoritmo de Grover no modelo de circuitos
+% e no modelo de computação quântica adiabática
+% ============================================================
+
+\chapter{Comparação entre o Algoritmo de Grover no Modelo de Circuitos e no Modelo Adiabático}
+
+\section{Introdução}
+
+O algoritmo de Grover representa um dos exemplos mais importantes de aceleração quântica em relação à computação clássica, reduzindo o tempo necessário para busca não estruturada de $O(N)$ para $O(\sqrt{N})$ \cite{Grover1996}. Esse algoritmo foi inicialmente formulado no modelo de computação quântica baseado em circuitos, mas posteriormente foi demonstrado que o mesmo problema pode ser resolvido utilizando computação quântica adiabática \cite{Farhi1998, Roland2002}.
+
+A equivalência entre essas duas abordagens constitui um resultado fundamental na teoria da computação quântica e fornece uma compreensão mais profunda da natureza física da aceleração quântica.
+
+Neste capítulo, será apresentada uma comparação detalhada entre essas duas implementações, analisando seus fundamentos matemáticos, interpretação física, vantagens, desvantagens e aplicações.
+
+\section{Modelo de circuitos quânticos}
+
+No modelo de circuitos quânticos, a computação é realizada por meio da aplicação sequencial de operadores unitários, denominados portas quânticas.
+
+O algoritmo de Grover inicia com a preparação do estado de superposição uniforme:
+
+\begin{equation}
+\ket{\psi_0} =
+\frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \ket{x}.
+\end{equation}
+
+O algoritmo utiliza dois operadores fundamentais:
+
+\begin{itemize}
+
+\item O operador oráculo:
+
+\begin{equation}
+U_f = I - 2 \ket{m}\bra{m},
+\end{equation}
+
+que inverte a fase do estado marcado;
+
+\item O operador de difusão:
+
+\begin{equation}
+U_s = 2 \ket{\psi_0}\bra{\psi_0} - I,
+\end{equation}
+
+que amplifica a amplitude do estado marcado.
+
+\end{itemize}
+
+A aplicação repetida desses operadores resulta em uma rotação no espaço de Hilbert, amplificando progressivamente a probabilidade de medir o estado solução.
+
+O número ótimo de iterações é dado por:
+
+\begin{equation}
+O(\sqrt{N}).
+\end{equation}
+
+\section{Modelo de computação quântica adiabática}
+
+No modelo adiabático, a computação é realizada por meio da evolução contínua de um Hamiltoniano dependente do tempo.
+
+O Hamiltoniano interpolado é definido como:
+
+\begin{equation}
+H(s) = (1-s) H_0 + s H_f,
+\end{equation}
+
+onde:
+
+\begin{equation}
+H_0 = I - \ket{\psi_0}\bra{\psi_0}
+\end{equation}
+
+e
+
+\begin{equation}
+H_f = I - \ket{m}\bra{m}.
+\end{equation}
+
+O sistema é inicialmente preparado no estado fundamental de $H_0$ e evolui até atingir o estado fundamental de $H_f$, que corresponde à solução do problema.
+
+Roland e Cerf demonstraram que, utilizando um schedule adequado, o tempo de evolução necessário é:
+
+\begin{equation}
+T = O(\sqrt{N}),
+\end{equation}
+
+correspondendo exatamente à complexidade do algoritmo de Grover \cite{Roland2002}.
+
+\section{Equivalência matemática}
+
+Ambos os algoritmos operam efetivamente em um subespaço bidimensional gerado pelos estados:
+
+\begin{equation}
+\ket{m}
+\end{equation}
+
+e
+
+\begin{equation}
+\ket{m^\perp}.
+\end{equation}
+
+No modelo de circuitos, a evolução ocorre por meio de rotações discretas nesse subespaço.
+
+No modelo adiabático, a evolução ocorre por meio de uma rotação contínua governada pelo Hamiltoniano dependente do tempo.
+
+Essa equivalência geométrica estabelece que ambos os algoritmos exploram a mesma estrutura matemática subjacente.
+
+\section{Equivalência computacional}
+
+Foi demonstrado que nenhum algoritmo quântico pode resolver o problema de busca não estruturada em tempo inferior a $\Omega(\sqrt{N})$ \cite{Bennett1997}.
+
+Como ambas as implementações atingem essa complexidade, conclui-se que ambas são assintoticamente ótimas.
+
+Além disso, foi demonstrado que a computação quântica adiabática é computacionalmente equivalente ao modelo de circuitos quânticos \cite{Aharonov2004}.
+
+Isso implica que qualquer algoritmo implementável em um modelo pode ser implementado no outro.
+
+\section{Diferenças físicas}
+
+Embora matematicamente equivalentes, os dois modelos possuem implementações físicas distintas.
+
+No modelo de circuitos:
+
+\begin{itemize}
+
+\item A computação é realizada por meio de portas discretas;
+
+\item O controle experimental requer a aplicação precisa de pulsos;
+
+\item O algoritmo é implementado como uma sequência de operações unitárias.
+
+\end{itemize}
+
+No modelo adiabático:
+
+\begin{itemize}
+
+\item A computação é realizada por meio da evolução contínua de um Hamiltoniano;
+
+\item O controle experimental envolve a variação gradual de parâmetros físicos;
+
+\item A computação ocorre como um processo físico contínuo.
+
+\end{itemize}
+
+\section{Vantagens do modelo de circuitos}
+
+Entre as vantagens do modelo de circuitos, destacam-se:
+
+\begin{itemize}
+
+\item Maior controle sobre operações individuais;
+
+\item Maior flexibilidade na implementação de algoritmos;
+
+\item Melhor compatibilidade com algoritmos universais.
+
+\end{itemize}
+
+Esse modelo constitui o paradigma dominante na computação quântica teórica.
+
+\section{Vantagens do modelo adiabático}
+
+Entre as vantagens do modelo adiabático, destacam-se:
+
+\begin{itemize}
+
+\item Implementação física mais natural em certos sistemas;
+
+\item Maior robustez a certos tipos de erros;
+
+\item Aplicabilidade direta a problemas de otimização.
+
+\end{itemize}
+
+Essas características tornam o modelo adiabático particularmente relevante para aplicações práticas.
+
+\section{Desvantagens e limitações}
+
+Ambos os modelos possuem limitações.
+
+No modelo de circuitos:
+
+\begin{itemize}
+
+\item Necessidade de controle extremamente preciso;
+
+\item Sensibilidade à decoerência;
+
+\item Complexidade experimental elevada.
+
+\end{itemize}
+
+No modelo adiabático:
+
+\begin{itemize}
+
+\item Dependência crítica da lacuna espectral;
+
+\item Possibilidade de evolução não adiabática;
+
+\item Limitações tecnológicas na implementação física.
+
+\end{itemize}
+
+\section{Cenários de aplicação}
+
+O modelo de circuitos é mais adequado para algoritmos universais, incluindo:
+
+\begin{itemize}
+
+\item Algoritmo de Shor;
+
+\item Algoritmos de simulação quântica;
+
+\item Algoritmos baseados em transformadas quânticas.
+
+\end{itemize}
+
+O modelo adiabático é particularmente adequado para:
+
+\begin{itemize}
+
+\item Problemas de otimização combinatória;
+
+\item Problemas de busca;
+
+\item Problemas de minimização de energia.
+
+\end{itemize}
+

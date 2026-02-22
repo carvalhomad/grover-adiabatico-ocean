@@ -1,0 +1,142 @@
+% ============================================================
+% passo6.tex
+% Análise das limitações da simulação clássica
+% ============================================================
+
+\chapter{Análise das Limitações da Simulação Clássica}
+
+\section{Introdução}
+
+A simulação apresentada no capítulo anterior permitiu verificar a correta construção do Hamiltoniano problema associado ao algoritmo de busca adiabático. No entanto, é fundamental distinguir entre a identificação do estado fundamental de um Hamiltoniano e a simulação completa da dinâmica adiabática quântica.
+
+A computação quântica adiabática é baseada na evolução unitária de um sistema quântico governado por um Hamiltoniano dependente do tempo, conforme estabelecido pelo teorema adiabático \cite{Messiah1962, Jansen2007}. Por outro lado, a simulação realizada utilizando o D-Wave Ocean SDK, por meio do algoritmo de recozimento simulado clássico, constitui um processo estocástico clássico que não reproduz integralmente a dinâmica quântica do sistema.
+
+Neste capítulo, serão analisadas as principais limitações dessa abordagem, incluindo a ausência de dinâmica quântica, o papel da lacuna espectral, e as restrições tecnológicas associadas às simulações clássicas.
+
+\section{Ausência de evolução quântica unitária}
+
+A computação quântica adiabática é governada pela equação de Schrödinger dependente do tempo:
+
+\begin{equation}
+i \hbar \frac{d}{dt} \ket{\psi(t)} = H(t) \ket{\psi(t)}.
+\end{equation}
+
+Essa equação descreve uma evolução unitária do estado quântico, preservando coerência quântica e permitindo efeitos exclusivamente quânticos, como interferência e tunelamento.
+
+O algoritmo de recozimento simulado clássico, por outro lado, baseia-se em um processo estocástico descrito por transições probabilísticas entre estados, governadas por distribuições térmicas clássicas. Esse processo não envolve vetores de estado quânticos nem operadores unitários.
+
+Consequentemente, a simulação clássica não reproduz a dinâmica quântica do sistema, mas apenas realiza uma busca estocástica pelo estado de menor energia.
+
+\section{Ausência de tunelamento quântico}
+
+Um dos mecanismos fundamentais que contribuem para a eficiência potencial da computação quântica adiabática é o tunelamento quântico. Esse fenômeno permite que o sistema atravesse barreiras de energia que seriam intransponíveis em um sistema clássico.
+
+Matematicamente, o tunelamento quântico é associado ao termo de campo transverso no Hamiltoniano, tipicamente representado por:
+
+\begin{equation}
+H_{\text{driver}} =
+\sum_i \sigma_i^x.
+\end{equation}
+
+Esse termo permite transições coerentes entre diferentes configurações do sistema.
+
+No recozimento simulado clássico, não existe mecanismo equivalente ao tunelamento quântico. As transições entre estados ocorrem exclusivamente por meio de flutuações térmicas, que podem ser insuficientes para superar barreiras de energia elevadas.
+
+\section{Ausência da dinâmica adiabática}
+
+A computação quântica adiabática baseia-se na evolução contínua do Hamiltoniano:
+
+\begin{equation}
+H(s) = (1-s) H_0 + s H_f.
+\end{equation}
+
+A dinâmica completa depende da estrutura espectral desse Hamiltoniano interpolado, incluindo a lacuna espectral mínima:
+
+\begin{equation}
+\Delta_{\min}.
+\end{equation}
+
+Essa lacuna determina a taxa máxima de variação do Hamiltoniano para que a evolução permaneça adiabática.
+
+Na simulação realizada utilizando o Ocean SDK, apenas o Hamiltoniano final foi considerado. O processo de interpolação e a estrutura espectral completa do Hamiltoniano não foram simulados explicitamente.
+
+Como consequência, a simulação não permite analisar diretamente os efeitos da lacuna espectral na evolução do sistema.
+
+\section{Ausência de coerência quântica}
+
+A coerência quântica constitui um recurso fundamental da computação quântica. Ela permite que o sistema exista em superposição de estados e que diferentes caminhos evolutivos interfiram entre si.
+
+No recozimento simulado clássico, o sistema é sempre descrito por um único estado clássico em cada instante. Não existe superposição nem interferência quântica.
+
+Essa limitação impede a simulação completa dos processos físicos subjacentes à computação quântica adiabática.
+
+\section{Complexidade computacional}
+
+Outro aspecto importante refere-se à complexidade computacional das simulações clássicas.
+
+A dimensão do espaço de estados cresce exponencialmente com o número de qubits:
+
+\begin{equation}
+N = 2^n.
+\end{equation}
+
+Simulações completas da dinâmica quântica exigiriam a manipulação explícita de vetores de estado com dimensão exponencial, o que se torna impraticável para sistemas grandes.
+
+O recozimento simulado clássico evita essa limitação ao utilizar métodos estocásticos, mas não reproduz fielmente a dinâmica quântica.
+
+\section{Diferenças em relação ao hardware quântico real}
+
+Dispositivos quânticos adiabáticos reais, como aqueles baseados em qubits supercondutores, implementam Hamiltonianos físicos que incluem termos de campo transverso e permitem evolução quântica real.
+
+O Hamiltoniano típico desses dispositivos é dado por:
+
+\begin{equation}
+H(s) =
+A(s) \sum_i \sigma_i^x +
+B(s) H_f.
+\end{equation}
+
+Esse Hamiltoniano permite evolução coerente e tunelamento quântico.
+
+Na simulação clássica, esse termo não é implementado fisicamente, e seus efeitos não são reproduzidos.
+
+\section{Limitações tecnológicas adicionais}
+
+Além das limitações fundamentais da simulação clássica, dispositivos quânticos reais também enfrentam desafios tecnológicos, incluindo:
+
+\begin{itemize}
+
+\item Decoerência quântica;
+
+\item Ruído térmico;
+
+\item Imperfeições experimentais;
+
+\item Limitações na conectividade entre qubits;
+
+\item Restrições na precisão do controle do Hamiltoniano.
+
+\end{itemize}
+
+Esses fatores podem influenciar a eficiência e a confiabilidade da computação quântica adiabática.
+
+\section{Validade da simulação realizada}
+
+Apesar das limitações descritas, a simulação realizada possui valor científico importante.
+
+Ela permite:
+
+\begin{itemize}
+
+\item Verificar a correta construção do Hamiltoniano problema;
+
+\item Confirmar a identificação do estado fundamental;
+
+\item Validar a formulação teórica do problema;
+
+\item Preparar a implementação em hardware quântico real.
+
+\end{itemize}
+
+No entanto, ela não permite simular diretamente a evolução adiabática quântica completa.
+

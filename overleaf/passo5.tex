@@ -1,0 +1,177 @@
+% ============================================================
+% passo5.tex
+% Simulação do algoritmo de Grover adiabático usando Ocean SDK
+% ============================================================
+
+\chapter{Simulação do Algoritmo de Grover Adiabático Utilizando o D-Wave Ocean SDK}
+
+\section{Introdução}
+
+A implementação prática do algoritmo de Grover em sua formulação adiabática requer a simulação da evolução de um sistema quântico governado por um Hamiltoniano dependente do tempo. Embora a implementação física completa envolva dispositivos quânticos especializados, como processadores quânticos baseados em qubits supercondutores, é possível modelar e simular o Hamiltoniano final utilizando ferramentas computacionais clássicas.
+
+Neste capítulo, será apresentada a simulação do Hamiltoniano final do algoritmo de busca adiabático utilizando o pacote D-Wave Ocean SDK. O objetivo consiste em modelar o Hamiltoniano problema associado ao estado alvo e verificar a obtenção do estado fundamental correspondente, que representa a solução do problema de busca.
+
+\section{Formulação do Hamiltoniano problema}
+
+Conforme discutido no capítulo anterior, o Hamiltoniano final do algoritmo de busca adiabático é definido como:
+
+\begin{equation}
+H_f = I - \ket{m}\bra{m},
+\end{equation}
+
+onde $\ket{m}$ representa o estado marcado.
+
+No contexto da implementação computacional utilizando o Ocean SDK, esse Hamiltoniano deve ser representado na forma de um Hamiltoniano de Ising, definido como:
+
+\begin{equation}
+H =
+\sum_i h_i \sigma_i^z +
+\sum_{i<j} J_{ij} \sigma_i^z \sigma_j^z,
+\end{equation}
+
+onde:
+
+\begin{itemize}
+
+\item $h_i$ representa o campo aplicado ao qubit $i$;
+
+\item $J_{ij}$ representa o acoplamento entre os qubits $i$ e $j$;
+
+\item $\sigma_i^z$ representa o operador de Pauli correspondente ao qubit $i$.
+
+\end{itemize}
+
+O estado fundamental desse Hamiltoniano corresponde à configuração de spins que minimiza a energia.
+
+\section{Representação do estado alvo}
+
+Para um sistema composto por $n$ qubits, o espaço de estados possui dimensão:
+
+\begin{equation}
+N = 2^n.
+\end{equation}
+
+Neste trabalho, foi considerado um sistema composto por oito qubits, resultando em um espaço de busca com:
+
+\begin{equation}
+N = 256.
+\end{equation}
+
+O estado alvo corresponde ao número inteiro 3, cuja representação binária é:
+
+\begin{equation}
+00000011.
+\end{equation}
+
+Utilizando a correspondência entre variáveis binárias e variáveis de spin:
+
+\begin{equation}
+0 \rightarrow -1, \quad 1 \rightarrow +1,
+\end{equation}
+
+obtém-se a configuração de spins correspondente ao estado alvo.
+
+\section{Construção do Hamiltoniano de Ising}
+
+O Hamiltoniano foi construído de forma que o estado alvo corresponda ao estado de menor energia. Isso foi obtido definindo-se os coeficientes do Hamiltoniano como:
+
+\begin{equation}
+h_i = - s_i,
+\end{equation}
+
+onde $s_i$ representa o valor do spin correspondente ao estado alvo.
+
+Essa construção garante que o estado alvo minimize a energia do sistema.
+
+Os termos de acoplamento foram definidos como:
+
+\begin{equation}
+J_{ij} = 0.
+\end{equation}
+
+Essa escolha simplifica o Hamiltoniano e mantém o estado alvo como estado fundamental.
+
+\section{Ferramenta de simulação}
+
+A simulação foi realizada utilizando o D-Wave Ocean SDK, um conjunto de bibliotecas que permite modelar e resolver problemas utilizando Hamiltonianos do tipo Ising \cite{Albash2018}.
+
+Foi utilizado o sampler clássico denominado:
+
+\begin{equation}
+\texttt{SimulatedAnnealingSampler}
+\end{equation}
+
+Esse algoritmo utiliza recozimento simulado clássico para encontrar o estado de menor energia do Hamiltoniano.
+
+Embora esse método não reproduza a dinâmica quântica completa, ele permite identificar o estado fundamental do Hamiltoniano problema.
+
+\section{Procedimento de simulação}
+
+O procedimento adotado consistiu nas seguintes etapas:
+
+\begin{enumerate}
+
+\item Definição do número de qubits;
+
+\item Construção da representação do estado alvo;
+
+\item Construção dos coeficientes do Hamiltoniano de Ising;
+
+\item Construção do modelo quadrático binário correspondente;
+
+\item Execução do algoritmo de recozimento simulado;
+
+\item Identificação do estado de menor energia obtido.
+
+\end{enumerate}
+
+O número de execuções independentes foi definido como:
+
+\begin{equation}
+\texttt{num\_reads} = 1000,
+\end{equation}
+
+permitindo avaliar a consistência dos resultados.
+
+\section{Resultados obtidos}
+
+A simulação produziu um conjunto de estados candidatos, cada um associado a um valor de energia.
+
+O estado correspondente à menor energia foi identificado como:
+
+\begin{equation}
+00000011,
+\end{equation}
+
+correspondendo exatamente ao estado alvo definido.
+
+Esse resultado confirma que o Hamiltoniano foi corretamente construído e que o estado fundamental corresponde à solução do problema de busca.
+
+\section{Interpretação dos resultados}
+
+O resultado obtido demonstra que o modelo de Hamiltoniano utilizado codifica corretamente o problema de busca.
+
+O estado fundamental do Hamiltoniano corresponde ao estado alvo, conforme esperado pela formulação teórica do algoritmo de busca adiabático.
+
+Embora a simulação tenha sido realizada utilizando um algoritmo clássico, o resultado confirma a validade da construção do Hamiltoniano problema.
+
+\section{Limitações da simulação}
+
+É importante destacar que o recozimento simulado clássico não reproduz a dinâmica quântica completa descrita pelo modelo adiabático.
+
+Em particular, essa simulação não modela:
+
+\begin{itemize}
+
+\item Evolução unitária quântica;
+
+\item Tunelamento quântico;
+
+\item Lacuna espectral do Hamiltoniano interpolado;
+
+\item Transições adiabáticas reais.
+
+\end{itemize}
+
+Apesar dessas limitações, a simulação permite validar a construção do Hamiltoniano problema.
+

@@ -1,0 +1,162 @@
+% ============================================================
+% main.tex
+% Relatório técnico em formato ABNT usando abntex2
+% Computação Quântica Adiabática e Algoritmo de Grover
+% ============================================================
+
+\documentclass[
+    12pt,
+    openright,
+    oneside,
+    a4paper,
+    english,
+    brazil
+]{abntex2}
+
+% ============================================================
+% PACOTES ESSENCIAIS
+% ============================================================
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+\usepackage{indentfirst}
+\usepackage{microtype}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage{physics}
+
+\usepackage{hyperref}
+
+\usepackage{bookmark}
+
+\usepackage{abntex2cite}
+
+% ============================================================
+% CONFIGURAÇÕES DE ESPAÇAMENTO (ABNT)
+% ============================================================
+
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0.2cm}
+
+\SingleSpacing
+
+% ============================================================
+% DADOS DO DOCUMENTO
+% ============================================================
+
+\titulo{Implementação do Algoritmo de Grover no Modelo de Computação Quântica Adiabática Utilizando o D-Wave Ocean SDK}
+
+\autor{Grupo 7}
+
+\local{Salvador-Ba}
+
+\data{2026}
+
+\instituicao{
+SENAI CIMATEC\\
+Salvador-Ba
+}
+
+\tipotrabalho{Relatório Técnico}
+
+\preambulo{Relatório técnico apresentado como parte do estudo da computação quântica adiabática, com ênfase na análise do teorema adiabático, formulação do algoritmo de Grover no framework adiabático e sua implementação utilizando o D-Wave Ocean SDK.}
+
+% ============================================================
+% INÍCIO DO DOCUMENTO
+% ============================================================
+
+\begin{document}
+
+% ------------------------------------------------------------
+% CAPA
+% ------------------------------------------------------------
+
+\imprimircapa
+
+% ------------------------------------------------------------
+% FOLHA DE ROSTO
+% ------------------------------------------------------------
+
+\imprimirfolhaderosto
+
+% ------------------------------------------------------------
+% SUMÁRIO
+% ------------------------------------------------------------
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+
+\cleardoublepage
+
+% ============================================================
+% CONTEÚDO PRINCIPAL
+% ============================================================
+
+\textual
+
+% ------------------------------------------------------------
+% PASSO 1
+% ------------------------------------------------------------
+
+\input{passo1.tex}
+
+% ------------------------------------------------------------
+% PASSO 2
+% ------------------------------------------------------------
+
+\input{passo2.tex}
+
+% ------------------------------------------------------------
+% PASSO 3
+% ------------------------------------------------------------
+
+\input{passo3.tex}
+
+% ------------------------------------------------------------
+% PASSO 4
+% ------------------------------------------------------------
+
+\input{passo4.tex}
+
+% ------------------------------------------------------------
+% PASSO 5
+% ------------------------------------------------------------
+
+\input{passo5.tex}
+
+% ------------------------------------------------------------
+% PASSO 6
+% ------------------------------------------------------------
+
+\input{passo6.tex}
+
+% ------------------------------------------------------------
+% PASSO 7
+% ------------------------------------------------------------
+
+\input{passo7.tex}
+
+% ------------------------------------------------------------
+% PASSO 8
+% ------------------------------------------------------------
+
+\input{passo8.tex}
+
+% ============================================================
+% REFERÊNCIAS
+% ============================================================
+
+\postextual
+
+%\bibliography{referencias}
+\bibliography{referencias.bib}
+
+\end{document}
