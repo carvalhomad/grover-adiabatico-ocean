@@ -1,0 +1,234 @@
+% ============================================================
+% main_optimized.tex
+% Relatório técnico em formato ABNT usando abntex2 (versão otimizada para 15 páginas)
+% Computação Quântica Adiabática e Algoritmo de Grover
+% ============================================================
+
+\documentclass[
+    12pt,
+    openright,
+    oneside,
+    a4paper,
+    english,
+    brazil
+]{abntex2}
+
+% ============================================================
+% PACOTES ESSENCIAIS
+% ============================================================
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+\usepackage{indentfirst}
+\usepackage{microtype} % Melhora o espaçamento do texto
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage{physics} % Para notação de Dirac (\ket, \bra)
+
+\usepackage{hyperref} % Para links
+
+\usepackage{bookmark}
+
+\usepackage[alf]{abntex2cite} % Estilo ABNT alfabético
+
+% ============================================================
+% CONFIGURAÇÕES DE ESPAÇAMENTO E SUMÁRIO (ABNT Otimizado)
+% ============================================================
+
+\setlength{\parindent}{1.25cm}
+%\setlength{\parskip}{0.2cm} % Removido para economizar espaço
+
+\SingleSpacing % Espaçamento simples para ABNT
+
+% Profundidade do sumário: 0 = apenas capítulos
+\setcounter{tocdepth}{0}
+
+% ============================================================
+% DADOS DO DOCUMENTO
+% ============================================================
+
+\titulo{Implementação do Algoritmo de Grover no Modelo de Computação Quântica Adiabática Utilizando o D-Wave Ocean SDK}
+
+\autor{Grupo 7}
+
+\local{Salvador-Ba}
+
+\data{2026}
+
+\instituicao{
+SENAI CIMATEC\\
+Salvador-Ba
+}
+
+\tipotrabalho{Relatório Técnico}
+
+\preambulo{Relatório técnico apresentado como parte do estudo da computação quântica adiabática, com ênfase na análise do teorema adiabático, formulação do algoritmo de Grover no framework adiabático e sua implementação utilizando o D-Wave Ocean SDK.}
+
+% ============================================================
+% INÍCIO DO DOCUMENTO
+% ============================================================
+
+\begin{document}
+
+% ------------------------------------------------------------
+% CAPA E FOLHA DE ROSTO
+% ------------------------------------------------------------
+
+\imprimircapa
+\imprimirfolhaderosto
+
+% ------------------------------------------------------------
+% SUMÁRIO (Otimizado)
+% ------------------------------------------------------------
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+
+\cleardoublepage
+
+% ============================================================
+% CONTEÚDO PRINCIPAL
+% ============================================================
+
+\textual
+
+% --- CAPÍTULO 1: O Teorema Adiabático (Otimizado) ---
+\chapter{O Teorema Adiabático}
+
+\section{Introdução}
+
+O teorema adiabático constitui um dos resultados fundamentais da mecânica quântica, estabelecendo as condições sob as quais o vetor de estado de um sistema quântico fechado permanece associado a um autoestado instantâneo do Hamiltoniano quando este varia lentamente no tempo. Esse resultado é central na formulação da computação quântica adiabática, pois garante que a evolução controlada de um Hamiltoniano permite preparar o autoestado fundamental associado ao Hamiltoniano final \cite{Born1928, Kato1950, Messiah1962}. Fisicamente, o teorema descreve a evolução de um vetor de estado $\ket{\psi(t)}$ no espaço de Hilbert quando o operador Hamiltoniano $\hat{H}(t)$ depende continuamente do tempo. Quando essa dependência é suficientemente lenta e certas hipóteses espectrais são satisfeitas, o vetor de estado permanece associado ao autoestado instantâneo correspondente.
+
+\section{Formulação matemática}
+
+Considere um sistema quântico fechado descrito por um operador Hamiltoniano dependente do tempo, $\hat{H}(t)$, para $t \in [0,T]$. A evolução temporal do vetor de estado $\ket{\psi(t)}$ é governada pela equação de Schrödinger dependente do tempo,
+\begin{equation}
+ i \hbar \frac{d}{dt} \ket{\psi(t)} = \hat{H}(t) \ket{\psi(t)}.
+\end{equation}
+Para cada instante de tempo, o operador Hamiltoniano admite uma decomposição espectral em termos de seus autoestados instantâneos, $\hat{H}(t) \ket{n(t)} = E_n(t) \ket{n(t)}$, onde $\{\ket{n(t)}\}$ forma uma base ortonormal completa e os autovalores são ordenados $E_0(t) < E_1(t) < E_2(t) < \cdots$. O autoestado $\ket{0(t)}$ corresponde ao autoestado fundamental instantâneo. A decomposição espectral do Hamiltoniano pode ser escrita como $\hat{H}(t) = \sum_n E_n(t) \ket{n(t)} \bra{n(t)}$.
+
+\section{Hipóteses formais e Enunciado do Teorema}
+
+O teorema adiabático depende das seguintes hipóteses formais \cite{Kato1950, Jansen2007}: (1) O sistema é fechado e sua evolução é descrita por um operador unitário $\hat{U}(t)$; (2) O operador Hamiltoniano $\hat{H}(t)$ é suficientemente regular no tempo (pelo menos continuamente diferenciável); (3) Existe uma lacuna espectral finita entre o autoestado fundamental e o primeiro autoestado excitado, $\Delta(t) = E_1(t) - E_0(t) > 0$; (4) A evolução ocorre em uma escala de tempo $T$ suficientemente longa. A lacuna espectral mínima é definida como $\Delta_{\min} = \min_{t \in [0,T]} (E_1(t) - E_0(t))$.
+
+Considere que o sistema seja inicialmente preparado no autoestado fundamental do Hamiltoniano inicial, $\ket{\psi(0)} = \ket{0(0)}$. Sob as hipóteses estabelecidas, o teorema adiabático afirma que, para evolução suficientemente lenta, o vetor de estado em um instante posterior $t$ satisfaz $\ket{\psi(t)} = e^{i \theta(t)} \ket{0(t)} + \ket{\epsilon(t)}$, onde $\lim_{T \to \infty} \ket{\epsilon(t)} = \ket{0}$, ou seja, o vetor de estado permanece arbitrariamente próximo do autoestado fundamental instantâneo. A fase total $\theta(t)$ pode ser decomposta como $\theta(t) = \theta_{\mathrm{dyn}}(t) + \theta_{\mathrm{geom}}(t)$, onde a fase dinâmica é $\theta_{\mathrm{dyn}}(t) = -\frac{1}{\hbar} \int_0^t E_0(t') dt'$ e a fase geométrica é $\theta_{\mathrm{geom}}(t) = i \int_0^t \bra{0(t')} \frac{d}{dt'} \ket{0(t')} dt'$ \cite{Berry1984}.
+
+Uma condição quantitativa suficiente para a validade da evolução adiabática pode ser expressa como
+\begin{equation}
+ \max_{t} \frac{ | \bra{1(t)} \frac{d\hat{H}(t)}{dt} \ket{0(t)} | }{ \Delta(t)^2 } \ll 1.
+\end{equation}
+Essa condição estabelece que a taxa de variação do Hamiltoniano deve ser pequena em comparação com o quadrado da lacuna espectral. Na computação quântica adiabática, define-se um Hamiltoniano $\hat{H}(s)$ dependente de um parâmetro adimensional $s \in [0,1]$, com $\hat{H}(0) = \hat{H}_0$ e $\hat{H}(1) = \hat{H}_f$, onde $\ket{0(0)}$ é facilmente preparável e $\ket{0(1)}$ codifica a solução do problema. O teorema adiabático garante que a evolução suficientemente lenta transforma $\ket{0(0)} \longrightarrow \ket{0(1)}$.
+
+% --- CAPÍTULO 2: O Modelo de Computação Quântica Adiabática (Otimizado) ---
+\chapter{O Modelo de Computação Quântica Adiabática}
+
+\section{Princípios e Formulação}
+
+A computação quântica adiabática (AQC) é um modelo baseado na evolução contínua de um sistema, diferentemente do modelo de circuitos, que utiliza portas quânticas discretas \cite{Farhi2000, Albash2018}. O Hamiltoniano do sistema é definido como uma interpolação entre um Hamiltoniano inicial $H_0$ e um final $H_f$: $H(s) = (1 - s) H_0 + s H_f$, onde $s = t/T$ é um parâmetro adimensional que varia de 0 a 1. O Hamiltoniano inicial $H_0$ é escolhido de modo que seu estado fundamental seja facilmente preparável, enquanto o Hamiltoniano final $H_f$ é construído de forma que seu estado fundamental codifique a solução de um problema computacional de interesse. Por exemplo, para um problema de otimização com função custo $C(x)$, o Hamiltoniano final é construído como $H_f \ket{x} = C(x) \ket{x}$, de modo que o estado fundamental corresponda à configuração que minimiza $C(x)$.
+
+O tempo de execução $T$ para que a evolução seja adiabática depende inversamente do quadrado da lacuna espectral mínima, $\Delta_{\min} = \min_{s \in [0,1]} ( E_1(s) - E_0(s) )$, ou seja, $T \gg 1/\Delta_{\min}^2$ \cite{Jansen2007}. Se a lacuna diminuir exponencialmente com o tamanho do sistema, o tempo de execução crescerá exponencialmente. Um resultado fundamental é a demonstração da equivalência entre o modelo adiabático e o modelo de circuitos, estabelecendo que qualquer algoritmo em um modelo pode ser simulado no outro com, no máximo, um overhead polinomial \cite{Aharonov2004}.
+
+% --- CAPÍTULO 3: Reformulação Adiabática do Algoritmo de Grover (Otimizado) ---
+\chapter{Reformulação Adiabática do Algoritmo de Grover}
+
+\section{Construção dos Hamiltonianos}
+
+O algoritmo de Grover, que fornece uma aceleração quadrática na busca de um elemento marcado $\ket{m}$ em um espaço de $N$ elementos, pode ser reformulado no contexto da AQC \cite{Grover1996, Farhi2000}. O estado inicial é a superposição uniforme de todos os estados da base, $\ket{\psi_0} = \frac{1}{\sqrt{N}} \sum_{x=0}^{N-1} \ket{x}$. Este estado é o fundamental do Hamiltoniano inicial $H_0 = I - \ket{\psi_0}\bra{\psi_0}$. O estado alvo $\ket{m}$ é o fundamental do Hamiltoniano final $H_f = I - \ket{m}\bra{m}$. Ambos os Hamiltonianos possuem um estado fundamental único com energia 0 e todos os outros estados com energia 1.
+
+\section{Evolução Adiabática e Lacuna Espectral}
+
+A evolução adiabática é governada pelo Hamiltoniano interpolado $H(s) = (1 - s) H_0 + s H_f$. A dinâmica do sistema pode ser descrita em um subespaço bidimensional gerado por $\ket{m}$ e um estado ortogonal. A análise espectral deste Hamiltoniano revela que a lacuna espectral é dada por \cite{Roland2002}:
+\begin{equation}
+ \Delta(s) = \sqrt{ 1 - 4 \frac{N-1}{N} s (1 - s) }.
+\end{equation}
+A lacuna é mínima em $s = 1/2$, com valor $\Delta_{\min} = 1/\sqrt{N}$. Para uma interpolação linear ($s=t/T$), o tempo de evolução adiabática é $T \propto 1/\Delta_{\min}^2 \propto N$, o que não representa vantagem sobre a busca clássica. No entanto, Roland e Cerf demonstraram que, utilizando um \textit{schedule} (função de evolução temporal, ou função evolução $s(t)$) de evolução não linear que satisfaz a condição de adiabaticidade local, $\frac{ds}{dt} \propto \Delta(s)^2$, o tempo total de evolução torna-se
+\begin{equation}
+ T \propto \sqrt{N}.
+\end{equation}
+Este resultado corresponde exatamente à complexidade do algoritmo de Grover no modelo de circuitos e é assintoticamente ótimo, pois nenhum algoritmo quântico pode resolver o problema de busca não estruturada em tempo inferior a $\Omega(\sqrt{N})$ \cite{Bennett1997}.
+
+% --- CAPÍTULO 4: Validação Computacional e Análise Crítica (Otimizado) ---
+\chapter{Validação Computacional e Análise Crítica}
+
+\section{Simulação do Hamiltoniano Final com Ocean SDK}
+
+Para validar a construção teórica, o Hamiltoniano final $H_f$ foi modelado e resolvido utilizando o D-Wave Ocean SDK. O objetivo foi confirmar que o estado fundamental de $H_f$ corresponde de fato à solução do problema de busca. O problema foi definido para um sistema de 8 qubits ($N=256$), com o estado alvo sendo o número inteiro 3 (representação binária `00000011`). O Hamiltoniano foi construído como um modelo de Ising, $H = \sum_i h_i \sigma_i^z$, com os campos locais $h_i$ definidos para minimizar a energia no estado alvo. O código completo e os detalhes da implementação estão disponíveis no repositório GitHub: \href{https://github.com/carvalhomad/grover-adiabatico-ocean}{https://github.com/carvalhomad/grover-adiabatico-ocean}.
+
+Utilizando o solver clássico `SimulatedAnnealingSampler` do Ocean SDK com 1000 leituras (\texttt{num\_reads}), o estado de menor energia encontrado foi consistentemente `00000011`, correspondendo ao alvo, com uma taxa de sucesso de 99,0\%. Este resultado valida experimentalmente que o Hamiltoniano final foi corretamente construído para codificar a solução do problema. Uma captura de tela da execução está disponível no Apêndice A.
+
+\section{Análise Crítica: Limitações e Comparação de Implementações}
+
+É crucial distinguir a simulação realizada da computação quântica adiabática real. O `SimulatedAnnealingSampler` é um algoritmo clássico que não reproduz a dinâmica quântica governada pela equação de Schrödinger. As principais limitações da simulação clássica incluem a ausência de evolução unitária, coerência quântica e, fundamentalmente, o \textbf{tunelamento quântico}, um mecanismo que permite ao sistema quântico atravessar barreiras de energia. Além disso, a simulação apenas valida o Hamiltoniano final $H_f$, sem analisar a dinâmica da evolução e o papel da lacuna espectral do Hamiltoniano interpolado $H(s)$.
+
+Os computadores quânticos adiabáticos reais, por sua vez, enfrentam seus próprios desafios, como a decoerência (interação com o ambiente), ruído térmico e imperfeições no controle experimental do Hamiltoniano. A robustez da AQC depende criticamente da magnitude da lacuna espectral, que pode se tornar exponencialmente pequena para problemas difíceis, exigindo tempos de evolução impraticáveis.
+
+A tabela a seguir compara as duas implementações do algoritmo de Grover.
+
+\begin{table}[H]
+\centering
+\caption{Comparativo entre as implementações do algoritmo de Grover}
+\begin{tabular}{|p{0.25\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}|}
+\hline
+\textbf{Aspecto} & \textbf{Modelo de Circuitos} & \textbf{Modelo Adiabático} \\
+\hline
+\textbf{Mecanismo} & Aplicação discreta de portas quânticas (oráculo e difusão) & Evolução contínua de um Hamiltoniano \\
+\hline
+\textbf{Complexidade} & $O(\sqrt{N})$ & $O(\sqrt{N})$ (com \textit{schedule} ótimo) \\
+\hline
+\textbf{Implementação} & Sequência de pulsos de controle precisos & Variação gradual de parâmetros físicos (campos, acoplamentos) \\
+\hline
+\textbf{Robustez a Ruído} & Geralmente mais sensível a erros de porta & Potencialmente mais robusto a certos tipos de ruído de controle lento \\
+\hline
+\textbf{Principal Desafio} & Fidelidade das portas e correção de erros & Manter a adiabaticidade (dependência da lacuna espectral) \\
+\hline
+\end{tabular}
+\end{table}
+
+% --- CAPÍTULO 5: Conclusões (Otimizado) ---
+\chapter{Conclusões}
+
+Este trabalho realizou uma análise completa do algoritmo de busca de Grover em sua formulação adiabática. Foi demonstrado que, sob as hipóteses do teorema adiabático, é possível construir um Hamiltoniano cuja evolução contínua resolve o problema de busca. O resultado central de Roland e Cerf, que estabelece a possibilidade de atingir a complexidade ótima de $O(\sqrt{N})$ através de um \textit{schedule} de evolução não linear, foi destacado como a chave para a equivalência computacional com o modelo de circuitos.
+
+A validação computacional, realizada com o D-Wave Ocean SDK, confirmou que o Hamiltoniano final do problema foi corretamente construído, com o estado fundamental correspondendo à solução desejada. No entanto, foi ressaltado que tal simulação clássica não captura a dinâmica quântica real, servindo como uma prova de conceito da codificação do problema.
+
+A análise comparativa entre os modelos de circuitos e adiabático revelou que, embora matematicamente equivalentes em poder computacional para este problema, eles representam paradigmas de implementação física distintos, cada um com suas próprias vantagens e desafios. A computação adiabática se mostra uma abordagem natural para problemas de otimização, mas sua eficiência prática permanece intrinsecamente ligada à estrutura da lacuna espectral do problema em questão.
+
+Como trabalhos futuros, recomenda-se a simulação explícita da dinâmica adiabática para sistemas pequenos e a implementação em hardware quântico real para estudar os efeitos de ruído e decoerência, comparando a robustez das diferentes abordagens.
+
+% ============================================================
+% REFERÊNCIAS
+% ============================================================
+
+\postextual
+
+\bibliography{referencias.bib}
+
+
+% ============================================================
+% APÊNDICE
+% ============================================================
+\begin{apendicesenv}
+
+\partapendices
+
+\chapter{Resultado da Execução do Código}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{results/Captura_Resultado_Ocean.png}
+    \caption{Saída da execução do script \texttt{grover\_adiabatico\_8qubits.py}, validando a construção do Hamiltoniano final.}
+    \label{fig:resultado_ocean}
+\end{figure}
+
+\end{apendicesenv}
+
+
+\end{document}
